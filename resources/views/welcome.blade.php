@@ -10,8 +10,10 @@
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     </head>
-    <body>
-    <div id="app"></div>
+    <body class="bg-gray-300">
+        <div class="bg-gray-100 flex">
+            <div id="app"></div>
+        </div>
 
     <script src="{{ asset('js/app.js') }}"></script>
     </body>
