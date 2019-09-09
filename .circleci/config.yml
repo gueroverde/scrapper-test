@@ -9,9 +9,9 @@ jobs:
       # Specify the version you desire here
       - image: circleci/php:7.3-node-browsers
       - image: circleci/postgres:10-postgis
-              environment:
-                POSTGRES_USER: circle-ci
-                POSTGRES_DB: circle_test
+          environment:
+            POSTGRES_USER: circle-ci
+            POSTGRES_DB: circle_test
 
       working_directory: ~/repo
 
