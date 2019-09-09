@@ -1,7 +1,7 @@
 php:
   preset: laravel
   finder:
-  name:
+    name:
       - "*.php"
     not-name:
       - index.php
