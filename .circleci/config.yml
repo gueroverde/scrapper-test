@@ -9,21 +9,21 @@ jobs:
       # Specify the version you desire here
       - image: circleci/php:7.3-node-browsers
       - image: circleci/postgres:10-postgis
-          environment:
-            POSTGRES_USER: circle-ci
-            POSTGRES_DB: circle_test
+        environment:
+          POSTGRES_USER: circle-ci
+          POSTGRES_DB: circle_test
 
       working_directory: ~/repo
 
-          environment:
-            DB_CONNECTION: pgsql
-            DB_HOST: localhost
-            DB_PORT: 5432
-            DB_DATABASE: circle_test
-            DB_USERNAME: circle-ci
-            APP_ENV: testing
-            APP_DEBUG: false
-            hideDefaultLocaleInURL : true
+      environment:
+        DB_CONNECTION: pgsql
+        DB_HOST: localhost
+        DB_PORT: 5432
+        DB_DATABASE: circle_test
+        DB_USERNAME: circle-ci
+        APP_ENV: testing
+        APP_DEBUG: false
+        hideDefaultLocaleInURL : true
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
