@@ -13,26 +13,26 @@ jobs:
           POSTGRES_USER: circle-ci
           POSTGRES_DB: circle_test
 
-      working_directory: ~/repo
+    working_directory: ~/repo
 
-      environment:
-        DB_CONNECTION: pgsql
-        DB_HOST: localhost
-        DB_PORT: 5432
-        DB_DATABASE: circle_test
-        DB_USERNAME: circle-ci
-        APP_ENV: testing
-        APP_DEBUG: false
-        hideDefaultLocaleInURL : true
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_DATABASE: circle_test
+      DB_USERNAME: circle-ci
+      APP_ENV: testing
+      APP_DEBUG: false
+      hideDefaultLocaleInURL : true
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # Using the RAM variation mitigates I/O contention
-      # for database intensive operations.
-      # - image: circleci/mysql:5.7-ram
-      #
-      # - image: redis:2.8.19
+    # Specify service dependencies here if necessary
+    # CircleCI maintains a library of pre-built images
+    # documented at https://circleci.com/docs/2.0/circleci-images/
+    # Using the RAM variation mitigates I/O contention
+    # for database intensive operations.
+    # - image: circleci/mysql:5.7-ram
+    #
+    # - image: redis:2.8.19
 
     steps:
       - checkout
