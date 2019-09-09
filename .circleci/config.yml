@@ -8,6 +8,22 @@ jobs:
     docker:
       # Specify the version you desire here
       - image: circleci/php:7.3-node-browsers
+      - image: circleci/postgres:10-postgis
+              environment:
+                POSTGRES_USER: circle-ci
+                POSTGRES_DB: circle_test
+
+      working_directory: ~/repo
+
+          environment:
+            DB_CONNECTION: pgsql
+            DB_HOST: localhost
+            DB_PORT: 5432
+            DB_DATABASE: circle_test
+            DB_USERNAME: circle-ci
+            APP_ENV: testing
+            APP_DEBUG: false
+            hideDefaultLocaleInURL : true
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -38,6 +54,9 @@ jobs:
           key: v1-dependencies-{{ checksum "composer.json" }}
           paths:
             - ./vendor
+      - run:
+            name: Run migrations
+            command: php artisan migrate:fresh --seed --env=testing
       - restore_cache:
           keys:
             - node-v1-{{ checksum "package.json" }}
@@ -50,7 +69,7 @@ jobs:
 
       # prepare the database
       - run: touch storage/testing.sqlite
-      - run: php artisan migrate --env=testing --database=sqlite_testing --force
+      - run: php artisan migrate --env=testing
 
       # run tests with phpunit or codecept
       - run: ./vendor/bin/phpunit
