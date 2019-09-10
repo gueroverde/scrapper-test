@@ -8,21 +8,58 @@ jobs:
     docker:
       # Specify the version you desire here
       - image: circleci/php:7.3-node-browsers
+      - image: circleci/postgres:10-postgis
+        environment:
+          POSTGRES_USER: circle-ci
+          POSTGRES_DB: circle_test
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # Using the RAM variation mitigates I/O contention
-      # for database intensive operations.
-      # - image: circleci/mysql:5.7-ram
-      #
-      # - image: redis:2.8.19
+    working_directory: ~/repo
+
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_DATABASE: circle_test
+      DB_USERNAME: circle-ci
+      APP_ENV: testing
+      APP_DEBUG: false
+      hideDefaultLocaleInURL : true
+
+    # Specify service dependencies here if necessary
+    # CircleCI maintains a library of pre-built images
+    # documented at https://circleci.com/docs/2.0/circleci-images/
+    # Using the RAM variation mitigates I/O contention
+    # for database intensive operations.
+    # - image: circleci/mysql:5.7-ram
+    #
+    # - image: redis:2.8.19
 
     steps:
       - checkout
 
-      - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
-      - run: sudo docker-php-ext-install zip
+      - run:
+          name: Update OS
+          command: sudo apt-get update
+      - run:
+          name: Install libraries
+          command: |
+            sudo apt-get install libzip-dev libwebp-dev libjpeg-dev libpng-dev libz-dev libxpm-dev libmcrypt-dev libpq-dev
+            sudo pecl channel-update pecl.php.net
+            sudo pecl install zip && sudo docker-php-ext-enable zip
+            sudo -E docker-php-ext-install gd
+            sudo -E docker-php-ext-install bcmath && sudo docker-php-ext-enable bcmath
+            sudo -E docker-php-ext-install mcrypt && sudo docker-php-ext-enable mcrypt
+            sudo -E docker-php-ext-install mbstring && sudo docker-php-ext-enable mbstring
+            sudo -E docker-php-ext-install exif && sudo docker-php-ext-enable exif
+            sudo docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
+            sudo -E docker-php-ext-install pdo pdo_pgsql pgsql && sudo docker-php-ext-enable pdo pdo_pgsql pgsql
+
+      - run:
+          name: Set APP_KEY as environment variable
+          command: |
+            echo 'export APP_KEY=$(php artisan key:generate --show)' >> $BASH_ENV
+            source $BASH_ENV
+            echo $APP_KEY
 
       # Download and cache dependencies
       - restore_cache:
@@ -38,6 +75,9 @@ jobs:
           key: v1-dependencies-{{ checksum "composer.json" }}
           paths:
             - ./vendor
+      - run:
+            name: Run migrations
+            command: php artisan migrate:fresh --seed --env=testing
       - restore_cache:
           keys:
             - node-v1-{{ checksum "package.json" }}
@@ -48,9 +88,12 @@ jobs:
           paths:
             - node_modules
 
-      # prepare the database
-      - run: touch storage/testing.sqlite
-      - run: php artisan migrate --env=testing --database=sqlite_testing --force
-
       # run tests with phpunit or codecept
+      - run: php artisan migrate:fresh --seed --env=testing
       - run: ./vendor/bin/phpunit
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - build
