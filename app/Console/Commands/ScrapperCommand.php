@@ -47,11 +47,11 @@ class ScrapperCommand extends Command
                 $product->price = (float) number_format((float) ltrim(trim($node->filter('.price-main')->text()), '$'),2);
                 $product->shop()->associate(Shop::find(1));
                 $product->save();
-
             });
-            $this->info('something');
+            $this->info('successful');
             return 0;
         } catch (Exception $exception) {
+            report($exception);
             $this->error($exception->getMessage());
             return 1;
         }

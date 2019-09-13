@@ -25,7 +25,7 @@ class ScrapperCommandTest extends TestCase
         ;
 
         $this->artisan('make:scrapper')
-        ->expectsOutput('something')
+        ->expectsOutput('successful')
         ->assertExitCode(0)
         ;
 
