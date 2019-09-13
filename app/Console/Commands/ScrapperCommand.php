@@ -52,7 +52,6 @@ class ScrapperCommand extends Command
             $this->info('something');
             return 0;
         } catch (Exception $exception) {
-            report($exception);
             $this->error($exception->getMessage());
             return 1;
         }
