@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Product;
-use App\Models\Shop;
 use Exception;
+use App\Models\Shop;
+use App\Models\Product;
 use Illuminate\Console\Command;
-use Symfony\Component\DomCrawler\Crawler;
 use Weidner\Goutte\GoutteFacade;
+use Symfony\Component\DomCrawler\Crawler;
 
 class ScrapperCommand extends Command
 {
@@ -39,20 +39,22 @@ class ScrapperCommand extends Command
                 throw new Exception('do not exist enough Item or change linio structured html');
             }
 
-            $crawlerProduct->slice(0,10)->each(function (Crawler $node) {
+            $crawlerProduct->slice(0, 10)->each(function (Crawler $node) {
                 $product = new Product();
                 $product->name = $node->filter("meta[itemprop='name']")->attr('content');
                 $product->description = $node->filter("meta[itemprop='name']")->attr('content');
                 $product->image = $node->filter("meta[itemprop='image']")->attr('content');
-                $product->price = floatval(preg_replace("/[^-0-9\.]/","",$node->filter('.price-main')->text()));
+                $product->price = floatval(preg_replace("/[^-0-9\.]/", '', $node->filter('.price-main')->text()));
                 $product->shop()->associate(Shop::find(1));
                 $product->save();
             });
             $this->info('successful');
+
             return 0;
         } catch (Exception $exception) {
             report($exception);
             $this->error($exception->getMessage());
+
             return 1;
         }
     }

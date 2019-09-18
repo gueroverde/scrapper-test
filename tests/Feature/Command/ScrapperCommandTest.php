@@ -16,7 +16,7 @@ class ScrapperCommandTest extends TestCase
     use DatabaseTransactions;
 
     /** @test  */
-    public function save_crawled_data()
+    public function saveCrawledData()
     {
         $crawler = new Crawler(file_get_contents(__DIR__ . '/Linio/Success.html'));
         GoutteFacade::shouldReceive('request')
@@ -33,7 +33,7 @@ class ScrapperCommandTest extends TestCase
     }
 
     /** @test */
-    public function throw_exception_when_has_minus_of_10_item()
+    public function throwExceptionWhenHasMinusOf10Item()
     {
         $crawler = new Crawler(file_get_contents(__DIR__ . '/Linio/Minus10.html'));
         GoutteFacade::shouldReceive('request')
@@ -45,6 +45,5 @@ class ScrapperCommandTest extends TestCase
             ->expectsOutput('do not exist enough Item or change linio structured html')
             ->assertExitCode(1)
         ;
-
     }
 }
