@@ -12,5 +12,4 @@ class Shop extends Model
     {
         $this->hasMany(Product::class);
     }
-
 }
