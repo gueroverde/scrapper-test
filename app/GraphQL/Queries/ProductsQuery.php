@@ -42,7 +42,7 @@ class ProductsQuery extends Query
         $with = $fields->getRelations();
 
         if (isset($args['id'])) {
-            Product::where('id', $args['id'])->get();
+            return Product::where('id', $args['id'])->get();
         }
 
         return Product::with($with)->select($select)->get();
