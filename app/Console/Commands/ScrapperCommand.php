@@ -44,7 +44,9 @@ class ScrapperCommand extends Command
                 $product->name = $node->filter("meta[itemprop='name']")->attr('content');
                 $product->description = $node->filter("meta[itemprop='name']")->attr('content');
                 $product->image = $node->filter("meta[itemprop='image']")->attr('content');
-                $product->price = floatval(preg_replace("/[^-0-9\.]/", '', $node->filter('.price-main')->text()));
+                $match = [];
+                preg_match("/[+-]?([0-9]*[.])?[0-9]+/", $node->filter('.price-main')->text(), $match);
+                $product->price = floatval($match[0]);
                 $product->shop()->associate(Shop::find(1));
                 $product->save();
             });
