@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Queries;
 
-use App\Models\Shop;
 use Closure;
+use App\Models\Shop;
 use GraphQL\Type\Definition\Type;
-use GraphQL\Type\Definition\ResolveInfo;
-use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Support\SelectFields;
 use Rebing\GraphQL\Support\Query;
+use GraphQL\Type\Definition\ResolveInfo;
+use Rebing\GraphQL\Support\SelectFields;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class ShopsQuery extends Query
 {
     protected $attributes = [
         'name' => 'shops',
-        'description' => 'A query'
+        'description' => 'A query',
     ];
 
     public function type(): Type
@@ -30,7 +30,7 @@ class ShopsQuery extends Query
             'id' => [
                 'name' => 'id',
                 'type' => Type::int(),
-            ]
+            ],
         ];
     }
 
