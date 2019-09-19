@@ -24,12 +24,12 @@ class ShopType extends GraphQLType
         return [
             'id' => [
                 'type' => Type::nonNull(Type::int()),
-                'description' => 'id of shop'
+                'description' => 'id of shop',
             ],
             'name' => [
                 'type' => Type::string(),
-                'description' => 'name of shop'
-            ]
+                'description' => 'name of shop',
+            ],
 
         ];
     }

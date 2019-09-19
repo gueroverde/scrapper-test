@@ -39,7 +39,7 @@ class ProductType extends GraphQLType
             'shop' => [
                 'type' => GraphQL::type('shop'),
                 'description' => 'shop when product is scrapper',
-            ]
+            ],
 
         ];
     }
