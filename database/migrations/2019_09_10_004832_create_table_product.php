@@ -19,7 +19,7 @@ class CreateTableProduct extends Migration
             $table->text('description');
             $table->float('price');
             $table->text('image');
-            $table->unsignedInteger('shop_id');
+            $table->bigInteger('shop_id')->unsigned();
             $table->foreign('shop_id')
                 ->references('id')
                 ->on('shops');
