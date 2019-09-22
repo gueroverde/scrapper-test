@@ -1,0 +1,35 @@
+{
+  "env": {
+    "test": {
+      "presets": [
+        ["@babel/env", {
+          "targets": {
+            "node": "current"
+          }
+        }]
+      ]
+    },
+    "development": {
+      "presets": [
+        ["@babel/env", {
+          "modules": false,
+          "targets": {
+            "browsers": "> 2%",
+            "uglify": true
+          }
+        }]
+      ]
+    },
+    "production": {
+      "presets": [
+        ["@babel/env", {
+          "modules": false,
+          "targets": {
+            "browsers": "> 2%",
+            "uglify": true
+          }
+        }]
+      ]
+    }
+  }
+}
