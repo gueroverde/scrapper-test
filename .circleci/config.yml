@@ -91,6 +91,7 @@ jobs:
       # run tests with phpunit or codecept
       - run: php artisan migrate:fresh --seed --env=testing
       - run: ./vendor/bin/phpunit
+      - run: npm test
 
 workflows:
   version: 2
