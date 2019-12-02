@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands;
 
-use Exception;
-use App\Models\Shop;
 use App\Models\Product;
+use App\Models\Shop;
+use Exception;
 use Illuminate\Console\Command;
-use Weidner\Goutte\GoutteFacade;
 use Symfony\Component\DomCrawler\Crawler;
+use Weidner\Goutte\GoutteFacade;
 
 class ScrapperCommand extends Command
 {
