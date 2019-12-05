@@ -38,16 +38,14 @@ class ScrapperCommand extends Command
             if ($crawlerProduct->count() < 10) {
                 throw new Exception('do not exist enough Item or change linio structured html');
             }
-
-            $crawlerProduct->slice(0, 10)->each(function (Crawler $node) {
+            $linioShop=Shop::find(1);
+            $crawlerProduct->slice(0, 10)->each(function (Crawler $node) use ($linioShop){
                 $product = new Product();
                 $product->name = $node->filter("meta[itemprop='name']")->attr('content');
                 $product->description = $node->filter("meta[itemprop='name']")->attr('content');
                 $product->image = $node->filter("meta[itemprop='image']")->attr('content');
-                $match = [];
-                preg_match('/[+-]?([0-9]*[.])?[0-9]+/', $node->filter('.price-main')->text(), $match);
-                $product->price = floatval($match[0]);
-                $product->shop()->associate(Shop::find(1));
+                $product->price = $this->getPriceFormat($node->filter('.price-main-md')->text());
+                $product->shop()->associate($linioShop);
                 $product->save();
             });
             $this->info('successful');
@@ -59,5 +57,11 @@ class ScrapperCommand extends Command
 
             return 1;
         }
+    }
+
+    public function getPriceFormat($priceText){
+        $match = [];
+        preg_match('/[+-]?([0-9]*[,]?[0-9]*[.])?[0-9]+/', $priceText, $match);
+        return floatval(str_replace(',','',$match[0]));
     }
 }
