@@ -3,16 +3,15 @@
 namespace App\Console\Commands;
 
 use App\Models\Price;
-use Exception;
-use App\Models\Shop;
 use App\Models\Product;
+use Exception;
 use Illuminate\Console\Command;
 use Weidner\Goutte\GoutteFacade;
 use Symfony\Component\DomCrawler\Crawler;
 
 class ScrapperCommand extends Command
 {
-    CONST LINIO_SHOP_ID = 1;
+    const LINIO_SHOP_ID = 1;
     /**
      * The name and signature of the console command.
      *
@@ -48,12 +47,12 @@ class ScrapperCommand extends Command
                         'name' => $node->filter("meta[itemprop='name']")->attr('content'),
                         'description' => $node->filter("meta[itemprop='name']")->attr('content'),
                         'image' => $node->filter("meta[itemprop='image']")->attr('content'),
-                        'shop_id' => $shopId
+                        'shop_id' => $shopId,
                     ]
                 );
                 $prices = new Price([
                         'price' => $this->getPriceFormat($node->filter('.price-main-md')->text()),
-                        'msrp' => $this->getPriceFormat($node->filter('.original-price')->text())
+                        'msrp' => $this->getPriceFormat($node->filter('.original-price')->text()),
                     ]
                 );
 
@@ -74,6 +73,7 @@ class ScrapperCommand extends Command
     {
         $match = [];
         preg_match('/[+-]?([0-9]*[,]?[0-9]*[.])?[0-9]+/', $priceText, $match);
+
         return floatval(str_replace(',', '', $match[0]));
     }
 }

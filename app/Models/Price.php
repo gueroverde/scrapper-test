@@ -12,7 +12,6 @@ class Price extends Model
     public $timestamps = false;
     protected $fillable = ['price', 'msrp'];
 
-
     public function product()
     {
         $this->belongsTo(Product::class);
