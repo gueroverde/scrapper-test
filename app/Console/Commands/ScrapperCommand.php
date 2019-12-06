@@ -6,8 +6,8 @@ use App\Models\Price;
 use App\Models\Product;
 use Exception;
 use Illuminate\Console\Command;
-use Weidner\Goutte\GoutteFacade;
 use Symfony\Component\DomCrawler\Crawler;
+use Weidner\Goutte\GoutteFacade;
 
 class ScrapperCommand extends Command
 {
@@ -53,8 +53,7 @@ class ScrapperCommand extends Command
                 $prices = new Price([
                         'price' => $this->getPriceFormat($node->filter('.price-main-md')->text()),
                         'msrp' => $this->getPriceFormat($node->filter('.original-price')->text()),
-                    ]
-                );
+                    ]);
 
                 $product->prices()->save($prices);
             });
