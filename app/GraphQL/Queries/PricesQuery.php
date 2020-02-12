@@ -44,7 +44,7 @@ class PricesQuery extends Query
         if (isset($args['id'])) {
             return Price::where('id', $args['id'])->get();
         }
-        
+
         return Price::with($with)->select($select)->get();
     }
 }
