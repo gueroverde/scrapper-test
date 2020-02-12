@@ -18,11 +18,10 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(Product::class, function (Faker $faker) {
-    $shop=factory(Shop::class)->create();
     return [
         'name' => $faker->name,
         'description' => $faker->text,
         'image' => $faker->url,
-        'shop_id' => $shop->id,
+        'shop_id' => 1,
     ];
 });

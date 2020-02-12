@@ -39,6 +39,5 @@ class CreateTableProduct extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('products');
         Schema::enableForeignKeyConstraints();
-
     }
 }

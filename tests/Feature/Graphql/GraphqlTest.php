@@ -4,19 +4,16 @@ namespace Tests\Feature\Graphql;
 
 use App\Models\Product;
 use App\Models\Shop;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class GraphqlTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions;
 
     /** @test */
     public function getAllShops()
     {
-        factory(Shop::class)->create(['name'=>'Linio']);
-
         $response = $this->graphql("{
   shops{
     id
@@ -42,8 +39,7 @@ class GraphqlTest extends TestCase
     /** @test */
     public function getSpecificShop()
     {
-        $shopName="Tienda 1";
-        factory(Shop::class)->create(['name'=>$shopName]);
+        $shopName="Linio";
         $shop = Shop::where('name', $shopName)->first();
 
         $response = $this->graphql("{
@@ -61,12 +57,12 @@ class GraphqlTest extends TestCase
         $product = factory(Product::class)->create();
 
         $response = $this->graphql("{
-          products(id: {$product->id}){
-            id,
-            description
-          }
-        }");
-        $this->assertArrayHasKey($product->description, $response->toArray('data.products.0.description'));
+  products(id: {$product->id}){
+    id,
+    description
+  }
+}");
+        $this->assertEquals($product->description, $response->json('data.products.0.description'));
     }
 
     /**

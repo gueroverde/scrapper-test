@@ -2,7 +2,6 @@
 namespace Tests\Feature\Command;
 
 use App\Models\Product;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Symfony\Component\DomCrawler\Crawler;
 use Tests\TestCase;
@@ -14,7 +13,7 @@ use Weidner\Goutte\GoutteFacade;
  */
 class ScrapperCommandTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions;
 
     /** @test  */
     public function saveCrawledData()
