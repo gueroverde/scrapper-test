@@ -9,7 +9,6 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
-
 class PriceType extends GraphQLType
 {
     protected $attributes = [

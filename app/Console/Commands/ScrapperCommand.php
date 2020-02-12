@@ -42,7 +42,7 @@ class ScrapperCommand extends Command
             }
 
             $crawlerProduct->slice(0, 10)->each(function (Crawler $node) use ($shopId) {
-                $productname = "";
+                $productname = '';
                 try {
                     $productname = $node->filter("meta[itemprop='name']")->attr('content');
                     $product = Product::updateOrCreate(

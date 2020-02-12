@@ -16,7 +16,7 @@ class PricesQuery extends Query
 {
     protected $attributes = [
         'name' => 'prices',
-        'description' => 'A query'
+        'description' => 'A query',
     ];
 
     public function type(): Type
