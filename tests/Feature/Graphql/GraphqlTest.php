@@ -1,18 +1,22 @@
 <?php
+
 namespace Tests\Feature\Graphql;
 
 use App\Models\Product;
 use App\Models\Shop;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class GraphqlTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseMigrations;
 
-    /** @test  */
+    /** @test */
     public function getAllShops()
     {
+        factory(Shop::class)->create(['name'=>'Linio']);
+
         $response = $this->graphql("{
   shops{
     id
@@ -35,18 +39,20 @@ class GraphqlTest extends TestCase
         $this->assertCount(10, $response->json('data.products'));
     }
 
-    /** @test  */
+    /** @test */
     public function getSpecificShop()
     {
-        $linio = Shop::where('name', 'Linio')->first();
+        $shopName="Tienda 1";
+        factory(Shop::class)->create(['name'=>$shopName]);
+        $shop = Shop::where('name', $shopName)->first();
 
         $response = $this->graphql("{
-  shops(id: {$linio->id}){
+  shops(id: {$shop->id}){
     id
     name
   }
 }");
-        $this->assertEquals('Linio', $response->json('data.shops.0.name'));
+        $this->assertEquals($shopName, $response->json('data.shops.0.name'));
     }
 
     /** @test */
@@ -55,12 +61,12 @@ class GraphqlTest extends TestCase
         $product = factory(Product::class)->create();
 
         $response = $this->graphql("{
-  products(id: {$product->id}){
-    id,
-    description
-  }
-}");
-        $this->assertEquals($product->description, $response->json('data.products.0.description'));
+          products(id: {$product->id}){
+            id,
+            description
+          }
+        }");
+        $this->assertArrayHasKey($product->description, $response->toArray('data.products.0.description'));
     }
 
     /**

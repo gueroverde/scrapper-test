@@ -42,20 +42,26 @@ class ScrapperCommand extends Command
             }
 
             $crawlerProduct->slice(0, 10)->each(function (Crawler $node) use ($shopId) {
-                $product = Product::updateOrCreate(
-                    [
-                        'name' => $node->filter("meta[itemprop='name']")->attr('content'),
-                        'description' => $node->filter("meta[itemprop='name']")->attr('content'),
-                        'image' => $node->filter("meta[itemprop='image']")->attr('content'),
-                        'shop_id' => $shopId,
-                    ]
-                );
-                $prices = new Price([
+                $productname = "";
+                try {
+                    $productname = $node->filter("meta[itemprop='name']")->attr('content');
+                    $product = Product::updateOrCreate(
+                        [
+                            'name' => $productname,
+                            'description' => $node->filter("meta[itemprop='name']")->attr('content'),
+                            'image' => $node->filter("meta[itemprop='image']")->attr('content'),
+                            'shop_id' => $shopId,
+                        ]
+                    );
+                    $prices = new Price([
                         'price' => $this->getPriceFormat($node->filter('.price-main-md')->text()),
                         'msrp' => $this->getPriceFormat($node->filter('.original-price')->text()),
                     ]);
 
-                $product->prices()->save($prices);
+                    $product->prices()->save($prices);
+                } catch (Exception $e) {
+                    $this->error("No se pudo importar el producto: {$productname}");
+                }
             });
             $this->info('successful');
 

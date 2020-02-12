@@ -33,6 +33,8 @@ class CreateTablePrices extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('table_prices');
+        Schema::enableForeignKeyConstraints();
     }
 }

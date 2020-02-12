@@ -12,7 +12,7 @@ class Product extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'description', 'price', 'image', 'shop_id'];
+    protected $fillable = ['name', 'description', 'image', 'shop_id'];
 
     public function shop()
     {
