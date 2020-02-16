@@ -2,8 +2,9 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\Product;
 use App\Models\Shop;
+use App\User;
+use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
 /*
@@ -17,11 +18,8 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(Product::class, function (Faker $faker) {
+$factory->define(Shop::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'description' => $faker->text,
-        'image' => $faker->url,
-        'shop_id' => 1,
+        'name' => $faker->company,
     ];
 });

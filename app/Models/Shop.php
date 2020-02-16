@@ -9,8 +9,13 @@ class Shop extends Model
 {
     use SoftDeletes;
 
+    /**
+     * @var array
+     */
+    protected $fillable = ['name'];
+
     public function products()
     {
-        $this->hasMany(Product::class);
+        return $this->hasMany(Product::class);
     }
 }

@@ -29,6 +29,8 @@ class CreateTableShop extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('shops');
+        Schema::enableForeignKeyConstraints();
     }
 }

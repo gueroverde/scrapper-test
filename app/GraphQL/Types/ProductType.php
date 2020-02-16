@@ -24,23 +24,26 @@ class ProductType extends GraphQLType
                 'type' => Type::nonNull(Type::int()),
                 'description' => 'id of product',
             ],
+            'name' => [
+                'type' => Type::string(),
+                'description' => 'product\'s name',
+            ],
             'description' => [
                 'type' => Type::string(),
                 'description' => 'description of product',
-            ],
-            'price' => [
-                'type' => Type::float(),
-                'description' => 'price of product',
             ],
             'image' => [
                 'type' => Type::string(),
                 'description' => 'url to image',
             ],
+            'prices' => [
+                'type' => Type::listOf(GraphQL::type('price')),
+                'description' => 'product prices',
+            ],
             'shop' => [
                 'type' => GraphQL::type('shop'),
                 'description' => 'shop when product is scrapper',
             ],
-
         ];
     }
 }

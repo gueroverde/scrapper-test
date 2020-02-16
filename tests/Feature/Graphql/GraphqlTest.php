@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Feature\Graphql;
 
 use App\Models\Product;
@@ -10,7 +11,7 @@ class GraphqlTest extends TestCase
 {
     use DatabaseTransactions;
 
-    /** @test  */
+    /** @test */
     public function getAllShops()
     {
         $response = $this->graphql("{
@@ -35,18 +36,19 @@ class GraphqlTest extends TestCase
         $this->assertCount(10, $response->json('data.products'));
     }
 
-    /** @test  */
+    /** @test */
     public function getSpecificShop()
     {
-        $linio = Shop::where('name', 'Linio')->first();
+        $shopName="Linio";
+        $shop = Shop::where('name', $shopName)->first();
 
         $response = $this->graphql("{
-  shops(id: {$linio->id}){
+  shops(id: {$shop->id}){
     id
     name
   }
 }");
-        $this->assertEquals('Linio', $response->json('data.shops.0.name'));
+        $this->assertEquals($shopName, $response->json('data.shops.0.name'));
     }
 
     /** @test */

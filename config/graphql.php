@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
+use App\GraphQL\Queries\PricesQuery;
 use App\GraphQL\Queries\ProductsQuery;
 use App\GraphQL\Queries\ShopsQuery;
+use App\GraphQL\Types\PriceType;
 use App\GraphQL\Types\ProductType;
 use App\GraphQL\Types\ShopType;
 
@@ -103,6 +105,7 @@ return [
             'query' => [
                 'shops' => ShopsQuery::class,
                 'products' => ProductsQuery::class,
+                'prices' => PricesQuery::class,
             ],
             'mutation' => [
                 // 'example_mutation'  => ExampleMutation::class,
@@ -127,6 +130,7 @@ return [
         // \Rebing\GraphQL\Support\UploadType::class,
         'shop' => ShopType::class,
         'product' => ProductType::class,
+        'price' => PriceType::class,
     ],
 
     // The types will be loaded on demand. Default is to load all types on each request
