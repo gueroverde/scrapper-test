@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Queries;
 
-use Closure;
 use App\Models\Product;
-use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Query;
+use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
-use Rebing\GraphQL\Support\SelectFields;
+use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Support\Query;
+use Rebing\GraphQL\Support\SelectFields;
 
 class ProductsQuery extends Query
 {
