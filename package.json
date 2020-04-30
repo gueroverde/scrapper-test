@@ -28,7 +28,7 @@
         "jest": "^24.9.0",
         "jest-cli": "^24.9.0",
         "jest-enzyme": "^7.1.1",
-        "jquery": "^3.2",
+        "jquery": "^3.5",
         "laravel-mix": "^4.0.7",
         "lodash": "^4.17.13",
         "react": "^16.2.0",
